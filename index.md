@@ -1,12 +1,12 @@
-## Welcome to GitHub Pages
+# Projeto Final da disciplina de PDI
 
-You can use the [editor on GitHub](https://github.com/Albertotavaresdeoliveira/Projeto_Final_PDI/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+## Alberto Tavares de Oliveira
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+Projeto Final da disciplina de Processamento Digital de Imagens da UFRN desenvolvido por Alberto Tavares de Oliveira.
 
-### Markdown
+### Descrição do projeto
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+Este projeto consiste na detecção de objetos em uma cena usando comparação de histogramas. As cenas podem ser os frames capturados de uma câmera, e neste caso, a detecção é feita em tempo real. O objeto a ser buscado é destacado na cena maior.
 
 ```markdown
 Syntax highlighted code block
