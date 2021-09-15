@@ -8,6 +8,9 @@ Point Findimage(Mat scene, Mat img){
   Point p(150, 150);
   Mat scenetmp;
 
+  Mat histsceneRGB;//Histogramas RGB da cena de busca
+  Mat histimgRGB;//Histogramas RGB da imagem buscada
+
   Mat histscene[3];//Histogramas RGB da cena de busca
   Mat histimg[3];//Histogramas RGB da imagem buscada
   Mat sceneplanes[3];
@@ -15,7 +18,7 @@ Point Findimage(Mat scene, Mat img){
   
   double Dif[3];
   double DifSoma;
-  double MenorDif = 0;//Valor inicial alto
+  double MenorDif = 0;
 
   int scenewidth = scene.cols;
   int sceneheight = scene.rows;
@@ -34,8 +37,8 @@ Point Findimage(Mat scene, Mat img){
 
   int Ndivs = 5;
 
-  int Numwidth = (scenewidth/(imgwidth/Ndivs));// * Ndivs;
-  int Numheight = (sceneheight/(imgheight/Ndivs));// * Ndivs;
+  int Numwidth = (scenewidth/(imgwidth/Ndivs));
+  int Numheight = (sceneheight/(imgheight/Ndivs));
   
   Rect R;
 
@@ -56,6 +59,8 @@ Point Findimage(Mat scene, Mat img){
 
       //for(int d=0; d<3; d++) { Dif[d] = compareHist(histscene[d], histimg[d], HISTCMP_CORREL); }
       for(int d=0; d<3; d++) { Dif[d] = compareHist(histscene[d], histimg[d], HISTCMP_INTERSECT); }
+      //for(int d=0; d<3; d++) { Dif[d] = compareHist(histscene[d], histimg[d], HISTCMP_CHISQR); }
+      //for(int d=0; d<3; d++) { Dif[d] = compareHist(histscene[d], histimg[d], HISTCMP_BHATTACHARYYA); }
   
       for(int s=0; s<3; s++) { DifSoma = DifSoma + Dif[s]; }
 
