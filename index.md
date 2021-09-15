@@ -8,7 +8,9 @@ Projeto Final da disciplina de Processamento Digital de Imagens da UFRN desenvol
 
 Este projeto consiste na detecção de objetos em uma cena usando comparação de histogramas. As cenas podem ser os frames capturados de uma câmera, e neste caso, a detecção é feita em tempo real. O objeto a ser buscado é destacado na cena maior.
 
+No programa desenvolvido um frame inicial é capturado da câmera pressionando a tecla ESC, onde o usuário deve selecionar com o mouse um retângulo correspondente ao objeto que será detectado na cena. Ao selecionar o objeto e pressionar ENTER, o programa inicia o processo de detecção. As dimensões do retângulo do objeto são armazenadas em váriáveis para que se possa processar a cena de busca. A cena é dividida em diversas partes do tamanho do retângulo do objeto, de forma que se o objeto em questão estiver na cena, então uma dessas partes terá um histograma semelhante ao do objeto buscado. O histograma de todas as partes são comparados com o do objeto, e aquele que for mais próximo tem maior probabilidade de ser o objeto. Um círculo vermelho é desenhado en torno da região com o histograma mais parecido indicando a detecção do objeto. A divisão da cena foi feita de tal forma que partes adjacentes da cena se sobreponham nas laterais, acima e abaixo, de forma que uma quantidade relativamente baixa de histogramas seja processada para que não haja sobrecargas no processamento e a detecção seja fluida. É importante ressaltar que esse método de rastreio não é perfeito, visto que se o objeto não estiver na cena, o algorítmo irá selecionar o histograma mais próximo, mas ainda assim, pode ser útil em alguma aplicação, ou pode ser melhorado com outras técnicas, como o uso de redes neurais, por exemplo.
 
+Abaixo é mostrado um video com a simulação do código mostrando o rastreamento de um objeto.
 
 Abaixo é mostrado o código em c++ desenvolvido
 
@@ -47,7 +49,7 @@ Point Findimage(Mat scene, Mat img){
   bool uniform = true;
   bool acummulate = false;
 
-  int Ndivs = 3;
+  int Ndivs = 2;
 
   int Numwidth = (scenewidth/(imgwidth/Ndivs));// * Ndivs;
   int Numheight = (sceneheight/(imgheight/Ndivs));// * Ndivs;

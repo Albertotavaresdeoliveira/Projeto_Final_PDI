@@ -32,7 +32,7 @@ Point Findimage(Mat scene, Mat img){
   bool uniform = true;
   bool acummulate = false;
 
-  int Ndivs = 3;
+  int Ndivs = 5;
 
   int Numwidth = (scenewidth/(imgwidth/Ndivs));// * Ndivs;
   int Numheight = (sceneheight/(imgheight/Ndivs));// * Ndivs;
