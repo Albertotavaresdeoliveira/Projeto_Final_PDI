@@ -12,7 +12,15 @@ No programa desenvolvido um frame inicial é capturado da câmera pressionando a
 
 A divisão da cena foi feita de tal forma que partes adjacentes da cena se sobreponham nas laterais, acima e abaixo, de forma que uma quantidade relativamente baixa de histogramas seja processada para que não haja sobrecargas no processamento e a detecção seja fluida. É importante ressaltar que esse método de rastreio não é perfeito, visto que se o objeto não estiver na cena, o algorítmo irá selecionar o histograma mais próximo, mas ainda assim, pode ser útil em alguma aplicação, ou pode ser melhorado com outras técnicas, como o uso de redes neurais, por exemplo.
 
-Abaixo é mostrado um video com a simulação do código mostrando o rastreamento de um objeto.
+As principais funções utilizadas para que o código executasse da forma correta foram a *calcHist()* responsável por gerar os histogramas das imagens do objeto e das partes da cena, e a função *compareHist()* que compara dois histogramas baseado em um método de comparação predeterminado. O método usado foi o *HISTCMP_INTERSECT*, que calcula a interseção entre dois histogramas. Outras funções também foram usadas, como a *circle()* para desenhar um circulo vermelho em torno do objeto detectado, além da função *locator()* para tratar eventos do mouse para a seleção do retângulo do objeto.
+
+Abaixo é mostrado 3 videos com a simulação do código mostrando o rastreamento de objetos diferentes.
+
+![](/Obj1.gif)
+
+![](/Obj2.gif)
+
+![](/Obj3.gif)
 
 Abaixo é mostrado o código em c++ desenvolvido
 
@@ -34,7 +42,7 @@ Point Findimage(Mat scene, Mat img){
   
   double Dif[3];
   double DifSoma;
-  double MenorDif = 0;//Valor inicial alto
+  double MenorDif = 0;
 
   int scenewidth = scene.cols;
   int sceneheight = scene.rows;
@@ -51,10 +59,10 @@ Point Findimage(Mat scene, Mat img){
   bool uniform = true;
   bool acummulate = false;
 
-  int Ndivs = 2;
+  int Ndivs = 5;
 
-  int Numwidth = (scenewidth/(imgwidth/Ndivs));// * Ndivs;
-  int Numheight = (sceneheight/(imgheight/Ndivs));// * Ndivs;
+  int Numwidth = (scenewidth/(imgwidth/Ndivs));
+  int Numheight = (sceneheight/(imgheight/Ndivs));
   
   Rect R;
 
@@ -75,11 +83,12 @@ Point Findimage(Mat scene, Mat img){
 
       //for(int d=0; d<3; d++) { Dif[d] = compareHist(histscene[d], histimg[d], HISTCMP_CORREL); }
       for(int d=0; d<3; d++) { Dif[d] = compareHist(histscene[d], histimg[d], HISTCMP_INTERSECT); }
+      //for(int d=0; d<3; d++) { Dif[d] = compareHist(histscene[d], histimg[d], HISTCMP_CHISQR); }
+      //for(int d=0; d<3; d++) { Dif[d] = compareHist(histscene[d], histimg[d], HISTCMP_BHATTACHARYYA); }
   
       for(int s=0; s<3; s++) { DifSoma = DifSoma + Dif[s]; }
 
       if(DifSoma >= MenorDif) { MenorDif = DifSoma; p.y = (i+1)*(imgheight/Ndivs); p.x = (j+1)*(imgwidth/Ndivs);}
-      
     }
   }
 
@@ -137,16 +146,9 @@ int main(int argc, char** argv){
   cout << "contrast :" << cap.get(CAP_PROP_CONTRAST) << endl;
   cout << "brilho :" << cap.get(CAP_PROP_BRIGHTNESS) << endl;
   cout << "saturation :" << cap.get(CAP_PROP_SATURATION) << endl;
-  
-  //img = imread(argv[1], IMREAD_COLOR);
 
   while(1){
     cap >> scene;
-
-    //scene = imread(argv[1], IMREAD_COLOR);
-    //img = imread(argv[2], IMREAD_COLOR);
-
-    //P = Findimage(scene, img);
     imshow("cena", scene);
     key = waitKey(30);
     if(key == 27) break;
@@ -162,9 +164,6 @@ int main(int argc, char** argv){
   while(1){
     cap >> scene;
 
-    //scene = imread(argv[1], IMREAD_COLOR);
-    //img = imread(argv[2], IMREAD_COLOR);
-
     P = Findimage(scene, img);
     imshow("cena", scene);
     key = waitKey(30);
@@ -174,7 +173,6 @@ int main(int argc, char** argv){
   cout <<"Ponto (" << P.x << "," << P.y << ") é o centro" << endl;
 
   destroyAllWindows();
-  //waitKey();
 
   return 0;
 }

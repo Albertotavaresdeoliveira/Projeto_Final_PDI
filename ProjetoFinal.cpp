@@ -8,9 +8,6 @@ Point Findimage(Mat scene, Mat img){
   Point p(150, 150);
   Mat scenetmp;
 
-  Mat histsceneRGB;//Histogramas RGB da cena de busca
-  Mat histimgRGB;//Histogramas RGB da imagem buscada
-
   Mat histscene[3];//Histogramas RGB da cena de busca
   Mat histimg[3];//Histogramas RGB da imagem buscada
   Mat sceneplanes[3];
@@ -65,7 +62,6 @@ Point Findimage(Mat scene, Mat img){
       for(int s=0; s<3; s++) { DifSoma = DifSoma + Dif[s]; }
 
       if(DifSoma >= MenorDif) { MenorDif = DifSoma; p.y = (i+1)*(imgheight/Ndivs); p.x = (j+1)*(imgwidth/Ndivs);}
-      
     }
   }
 
@@ -123,16 +119,9 @@ int main(int argc, char** argv){
   cout << "contrast :" << cap.get(CAP_PROP_CONTRAST) << endl;
   cout << "brilho :" << cap.get(CAP_PROP_BRIGHTNESS) << endl;
   cout << "saturation :" << cap.get(CAP_PROP_SATURATION) << endl;
-  
-  //img = imread(argv[1], IMREAD_COLOR);
 
   while(1){
     cap >> scene;
-
-    //scene = imread(argv[1], IMREAD_COLOR);
-    //img = imread(argv[2], IMREAD_COLOR);
-
-    //P = Findimage(scene, img);
     imshow("cena", scene);
     key = waitKey(30);
     if(key == 27) break;
@@ -148,9 +137,6 @@ int main(int argc, char** argv){
   while(1){
     cap >> scene;
 
-    //scene = imread(argv[1], IMREAD_COLOR);
-    //img = imread(argv[2], IMREAD_COLOR);
-
     P = Findimage(scene, img);
     imshow("cena", scene);
     key = waitKey(30);
@@ -160,7 +146,6 @@ int main(int argc, char** argv){
   cout <<"Ponto (" << P.x << "," << P.y << ") é o centro" << endl;
 
   destroyAllWindows();
-  //waitKey();
 
   return 0;
 }
